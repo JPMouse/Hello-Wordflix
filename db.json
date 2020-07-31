@@ -1,0 +1,17 @@
+{
+    "categorias":[
+        {
+            "id": 1,
+            "nome": "Imersão",
+            "descricao": "Uma categoria mostrando todas as imerções que tiveram até agora",
+            "cor": "#cbd1ff"
+        },
+        {
+            "id": 2,
+            "nome": "Html/Css",
+            "descricao": "Aqui você encontra os conteúdo que vai te ajudar a iniciar com Html e Css.",
+            "cor": "#cbd1ff"
+        }
+        
+    ]
+}
