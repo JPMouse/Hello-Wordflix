@@ -1,39 +1,26 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
-import Button from '../../../components/Button'
+import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForms';
 
 function CadastroCategoria() {
   const valoresIniciais = {
     nome: '',
     descricao: '',
-    cor: ''
+    cor: '',
   };
+
+  const { handleChange, values, clearForm } = useForm(valoresIniciais);
+
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
-
-
-  function setValue(chave, valor) {
-    setValues({
-      ...values,
-      [chave]: valor,
-    });
-  }
-
-  function handleChange(infosDoEvento) {
-    setValue(
-      infosDoEvento.target.getAttribute('name'),
-      infosDoEvento.target.value,
-      );
-  }
 
   useEffect(() => {
-    console.log('alo alo');
     const URL_TOP = window.location.hostname.includes('localhost')
-    ? 'http://localhost:8080/categorias'
-    : 'https://hello-wordflix.herokuapp.com/categorias';
-
+      ? 'http://localhost:8080/categorias'
+      : 'https://devsoutinhoflix.herokuapp.com/categorias';
+    // E a ju ama variáveis
     fetch(URL_TOP)
       .then(async (respostaDoServidor) => {
         const resposta = await respostaDoServidor.json();
@@ -42,29 +29,29 @@ function CadastroCategoria() {
         ]);
       });
 
-  //  setTimeout(() => {
-  //    setCategorias([
-  //      ...categorias,
-  //      {
-  //        "id": 1,
-  //        "nome": "Imersão",
-  //        "descricao": "Uma categoria mostrando todas as imerções que tiveram até agora",
-  //        "cor": "#cbd1ff"
-  //    },
-  //    {
-  //        "id": 2,
-  //        "nome": "Html/Css",
-  //        "descricao": "Aqui você encontra os conteúdo que vai te ajudar a iniciar com Html e Css.",
-  //        "cor": "#cbd1ff"
-  //   },
-  //    ]);
-  //  }, 4 * 1000);
+    // setTimeout(() => {
+    //   setCategorias([
+    //     ...categorias,
+    //     {
+    //       id: 1,
+    //       nome: 'Front End',
+    //       descricao: 'Uma categoria bacanudassa',
+    //       cor: '#cbd1ff',
+    //     },
+    //     {
+    //       id: 2,
+    //       nome: 'Back End',
+    //       descricao: 'Outra categoria bacanudassa',
+    //       cor: '#cbd1ff',
+    //     },
+    //   ]);
+    // }, 4 * 1000);
   }, []);
 
   return (
     <PageDefault>
       <h1>
-        Cadastro de Categoria: 
+        Cadastro de Categoria:
         {values.nome}
       </h1>
 
@@ -72,13 +59,13 @@ function CadastroCategoria() {
         infosDoEvento.preventDefault();
         setCategorias([
           ...categorias,
-          values
+          values,
         ]);
 
-        setValues(valoresIniciais)
+        clearForm();
       }}
       >
-        
+
         <FormField
           label="Nome da Categoria"
           name="nome"
@@ -95,7 +82,7 @@ function CadastroCategoria() {
         />
 
         <FormField
-          label="cor"
+          label="Cor"
           type="color"
           name="cor"
           value={values.cor}
@@ -109,26 +96,24 @@ function CadastroCategoria() {
 
       {categorias.length === 0 && (
         <div>
-          Loading ...
+          {/* Cargando... */}
+          Loading...
         </div>
       )}
 
       <ul>
-        {categorias.map((categoria) => {
-          return (
-            <li key={`${categoria.nome}`}>
-              {categoria.nome}
-            </li>
-          )
-        })}
+        {categorias.map((categoria) => (
+          <li key={`${categoria.titulo}`}>
+            {categoria.titulo}
+          </li>
+        ))}
       </ul>
-
 
       <Link to="/">
         Ir para home
       </Link>
     </PageDefault>
-  )
+  );
 }
 
 export default CadastroCategoria;
